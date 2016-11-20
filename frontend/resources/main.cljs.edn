@@ -1,0 +1,5 @@
+{:require [site5.core]
+ :init-fns [site5.core/init!]
+ :optimizations :none
+ :source-map true
+ :compiler-options {:parallel-build true}}

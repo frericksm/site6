@@ -1,0 +1,8 @@
+{:site5/initial-schema
+ {:txes [[{:db/id #db/id[:db.part/db]
+           :db/ident :todo/text
+           :db/valueType :db.type/string
+           :db/cardinality :db.cardinality/one
+           :db/fulltext true
+           :db/doc "The todo's text"
+           :db.install/_attribute :db.part/db}]]}}
