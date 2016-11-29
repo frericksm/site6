@@ -47,7 +47,7 @@
 
 (deftask build []
   (comp
-    (speak)
+    ;;(speak)
     (cljs)
     (sass)
     (fingerprint)
