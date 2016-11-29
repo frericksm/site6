@@ -28,8 +28,9 @@
       (when (and
               input-changed?
               ;; Does string comparision on every keystroke
-              (not= (:todo/text next-props) (-> this om/props :todo/text)))
-        (om/update-state! this assoc :input-changed? false))))
+              (= (:todo/text next-props) (:todo-input next-state)))
+        (do (println (:todo/text next-props) (:todo-input next-state) (-> this om/props :todo/text))
+          (om/update-state! this assoc :input-changed? false)))))
 
   (render [this]
     (let [props (om/props this)

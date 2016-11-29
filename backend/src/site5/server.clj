@@ -37,7 +37,7 @@
 (def app
   (-> handle-query
     (wrap-transit)
-    (wrap-cors
+    #_(wrap-cors
       :access-control-allow-origin [#".*"]
       :access-control-allow-methods [:post])
     (errors/wrap-error-notifications)))

@@ -19,6 +19,9 @@
                   ;; middleware
                   [ring-cors "0.1.8"]
 
+
+                  [bidi "2.0.14"]
+
                   [org.omcljs/om "1.0.0-alpha47"]])
 
 (boot.core/load-data-readers!)
@@ -32,6 +35,9 @@
   []
   (comp
     (watch :verbose true)
-    (system :sys #'dev-system :auto true)
-    (speak)
+    (system :sys #'dev-system
+            :auto true 
+            :files [".*.clj"]
+            :regexes true)
+    ;;(speak)
     (repl :server true)))
