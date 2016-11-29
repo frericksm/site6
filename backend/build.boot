@@ -33,5 +33,5 @@
   (comp
     (watch :verbose true)
     (system :sys #'dev-system :auto true)
-    (speak)
+    ;;(speak)
     (repl :server true)))
