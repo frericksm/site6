@@ -2,16 +2,25 @@
   (:require [goog.dom :as gdom]
             [om.next :as om :refer-macros [defui]]
             [site5.reconciler :refer [reconciler]]
-            [site5.components.base :as base]))
+            [site5.components.base :as base]
+            [com.stuartsierra.component :as component]
+            [site5.system]))
 
-(defn top-level-node
+(enable-console-print!)
+
+#_(defn top-level-node
   "Return document body. Needed for storing history"
   []
   (.-body js/document))
 
-(defn init! []
+#_(defn init! []
   (enable-console-print!)
   (om/add-root! reconciler base/Base (gdom/getElement "app")))
 
-(defn reload! []
+#_(defn reload! []
   (.forceUpdate (om/class->any reconciler base/Base)))
+
+(defn start []
+  (component/start  (site5.system/system {})))
+
+#_(start)

@@ -35,7 +35,17 @@
 
                   ;; Styles
                   [org.webjars.bower/bootstrap "4.0.0-alpha.2"]
-                  [deraen/boot-sass "0.3.0" :scope "test"]])
+                  [cljs-react-material-ui "0.2.21"]
+
+                  [deraen/boot-sass "0.3.0" :scope "test"]
+
+                  ; System
+                  [com.stuartsierra/component "0.3.1"]
+                  [compassus "1.0.0-alpha2"]
+                  [secretary "1.2.3"]
+
+                  
+                  ])
 
 (require
   '[adzerk.boot-cljs            :refer [cljs]]
@@ -57,7 +67,8 @@
   (task-options!
     cljs {:ids ["main"]}
     fingerprint {:skip true}
-    reload {:on-jsload 'site5.core/reload!}))
+    ;;reload {:on-jsload 'site5.core/reload!}
+))
 
 (deftask dev
   "Run application in development mode"
