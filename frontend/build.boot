@@ -55,6 +55,15 @@
   '[deraen.boot-sass            :refer [sass]]
   '[pointslope.boot-fingerprint :refer [fingerprint]])
 
+(deftask build-prod []
+  (comp
+    ;;(speak)
+    (watch)
+    (cljs :optimizations :advanced)
+    (sass)
+    (fingerprint)
+    (target :dir #{"/home/michael/projects/test-www/ic"})))
+
 (deftask build []
   (comp
     ;;(speak)

@@ -13,7 +13,9 @@
    :notes "/notes"})
 
 (defn app-dispatch [route]
-  (.assign js/location (str "/#" (get routing-data route))))
+  ;; used for deployment under /
+  ;;(.assign js/location (str "/#" (get routing-data route)))
+  (.assign js/location (str "#" (get routing-data route))))
 
 (defn did-mount [route-manager] 
   (let [event-key (:event-key route-manager)
