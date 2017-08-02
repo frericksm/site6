@@ -1,5 +1,7 @@
-{:require [site5.core]
- :init-fns [site5.core/start]
- :optimizations :none
- :source-map true
- :compiler-options {:parallel-build true}}
+{:require [site6.core]
+ :init-fns [site6.core/init]
+ ;;:compiler-options {:optimizations :advanced                    :output-wrapper true}
+ ;;:optimizations :none
+ ;;:source-map true
+ ;;:compiler-options {:parallel-build true}
+}

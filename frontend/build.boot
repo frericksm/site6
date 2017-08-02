@@ -2,49 +2,47 @@
   :source-paths #{"src"}
   :resource-paths #{"resources"}
 
-  :dependencies '[[org.clojure/clojure "1.8.0"]
-                  [adzerk/boot-cljs "1.7.170-3" :scope "test"]
-
-                  ;; REPL
-                  [adzerk/boot-cljs-repl   "0.3.3"] ;; latest release
+  :dependencies '[[adzerk/env "0.4.0"]
+                  [adzerk/boot-cljs "2.0.0" :scope "test"]
+                  [adzerk/boot-cljs-repl "0.3.3" :scope "test"] ;; latest release
+                  [adzerk/boot-reload "0.5.1" :scope "test"]
+                  [pandeiro/boot-http "0.7.6" :scope "test"]
                   [com.cemerick/piggieback "0.2.1"  :scope "test"]
+
                   [weasel                  "0.7.0"  :scope "test"]
                   [org.clojure/tools.nrepl "0.2.12" :scope "test"]
 
-                  [adzerk/boot-reload "0.4.13" :scope "test"]
-                  [pandeiro/boot-http "0.7.6" :scope "test"]
+                  [org.clojure/clojure "1.8.0"]
+
+                  ;; REPL
+
                   [afrey/ring-html5-handler "1.1.0" :scope "test"]
 
-                  [devcards "0.2.2" :exclusions [cljsjs/react] :scope "test"]
+                  [org.clojure/core.async "0.3.442"]
+                  [org.clojure/clojurescript "1.9.521"]
 
-                  [org.clojure/clojurescript "1.9.293"]
+                  [binaryage/devtools            "0.9.4"           :scope "test"]
 
-                  ;; React
-                  [cljsjs/react "15.3.1-1"] 
-                  [cljsjs/react-dom "15.3.1-1"]
-                  [sablono "0.7.6"]
-                  [org.omcljs/om "1.0.0-alpha47"]
 
-                  [adzerk/env "0.3.0"]
-                  [com.domkm/silk "0.1.2"]
-
-                  [com.cognitect/transit-cljs "0.8.239"]
+                  #_[reagent  "0.6.2" :exclusions [cljsjs/react cljsjs/react-dom]]
+                  [re-frame "0.8.0" :exclusions [cljsjs/react cljsjs/react-dom]]
+                  [day8.re-frame/async-flow-fx "0.0.7"]
+ 
 
                   ;; Assets
                   [org.clojars.nberger/boot-fingerprint "0.1.2-SNAPSHOT"]
 
                   ;; Styles
-                  [org.webjars.bower/bootstrap "4.0.0-alpha.2"]
-                  [cljs-react-material-ui "0.2.21"]
-
+                  [org.webjars.bower/bootstrap "4.0.0-alpha.4"]
+                  [cljs-react-material-ui "0.2.45"]
                   [deraen/boot-sass "0.3.0" :scope "test"]
 
-                  ; System
-                  [com.stuartsierra/component "0.3.1"]
-                  [compassus "1.0.0-alpha2"]
-                  [secretary "1.2.3"]
+                  [bidi                          "2.0.8"]
+                  [kibu/pushy                    "0.3.6"]
 
-                  
+
+                  [datascript "0.16.1"]
+                  [re-posh "0.1.4" :exclusions [cljsjs/react cljsjs/react-dom]]
                   ])
 
 (require
@@ -59,33 +57,52 @@
   (comp
     ;;(speak)
     (watch)
-    (cljs :optimizations :advanced)
+    #_(cljs)
+    (cljs :optimizations :advanced
+          :source-map true
+          :compiler-options {:pseudo-names true
+                             ;; :optimizations :advanced
+                             :output-wrapper :true
+                             })
+    #_(sift :include #{#"\.out"} :invert true)
     (sass)
-    (fingerprint)
+    #_(fingerprint)
     (target :dir #{"/home/michael/projects/test-www/ic"})))
 
 (deftask build []
   (comp
-    ;;(speak)
+    (speak)
     (cljs)
+    #_(cljs :optimizations :advanced
+          :source-map true
+          :compiler-options {:pseudo-names true
+                             ;; :optimizations :advanced
+                             :output-wrapper :true
+                             })
     (sass)
     (fingerprint)
     (target)))
 
-(defn set-development-env! []
+#_(defn set-development-env! []
   (task-options!
     cljs {:ids ["main"]}
     fingerprint {:skip true}
-    ;;reload {:on-jsload 'site5.core/reload!}
+
 ))
 
 (deftask dev
   "Run application in development mode"
   []
-  (set-development-env!)
+  #_(set-development-env!)
   (comp
-    (serve :handler 'afrey.ring-html5-handler/handler :reload true :port 3001)
     (watch)
     (cljs-repl)
-    (reload)
-    (build)))
+    (reload :on-jsload 'site6.core/mount-root)
+    #_(speak)
+    (serve :handler 'afrey.ring-html5-handler/handler :port 3001)
+    (cljs :ids ["main"]
+          ;;:compiler-options {:preloads '[devtools.preload]}
+          )
+    (sass)
+    #_(fingerprint)
+    (target)))

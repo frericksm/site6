@@ -1,4 +1,4 @@
-(ns site5.eventbus
+(ns site6.eventbus
   (:require-macros [cljs.core.async.macros :refer [go]])
   (:require [com.stuartsierra.component :as component]
             [cljs.core.async :as async

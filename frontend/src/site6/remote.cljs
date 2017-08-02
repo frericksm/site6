@@ -1,6 +1,6 @@
-(ns site5.remote
-  (:require [site5.env :as env]
-            [site5.util :refer [mlog]]
+(ns site6.remote
+  (:require [site6.env :as env]
+            [site6.util :refer [mlog]]
             [cognitect.transit :as t]
             [goog.object :as obj]
             [om.transit :as om-transit])

@@ -5,7 +5,7 @@
   :dependencies '[[org.clojure/clojure "1.8.0"]
                   [adzerk/env "0.3.0"]
 
-                  [org.danielsz/system "0.3.1"]
+                  [org.danielsz/system "0.4.0"]
                   [aleph "0.4.1"]
 
                   ;; DB
