@@ -8,10 +8,6 @@
              [re-frame.core :refer [reg-sub-raw reg-event-fx] :as rf]
             ))
 
-(defn edit-note [dib title body author]
-  (rf/dispatch [:edit-note dib title body author])
-  (rf/dispatch [:navigate :note-editor]))
-
 (defn note-list-entry [note]
   (let [dib (nth note 0)
         title (nth note 1)
@@ -23,14 +19,14 @@
      {:primary-text title 
       :secondary-text body 
       :on-touch-tap (fn [e] 
-                  (.preventDefault e)
-                  (edit-note dib title body author))}]))
+                      (.preventDefault e)
+                      (rf/dispatch [:edit-note dib title body author]))}]))
 
 (defn notes-list [notes]
   "notes"
   [ui/list (as-> notes x
              (map note-list-entry x) 
-             #_(interpose [divider] x)
+             (interpose [divider] x)
              (map-indexed (fn [i p] ^{:key i} p) x))])
 
 (defn main []
@@ -50,7 +46,9 @@
          [:div
           {:className "row around-xs mar-top-20"}
           (reagent/as-element [ui/floating-action-button 
-                               {:on-touch-tap #()} 
+                               {:on-touch-tap (fn [e] 
+                                                (.preventDefault e)
+                                                (rf/dispatch [:new-note]))} 
                                (ic/content-add)])]])
       )))
 

@@ -26,13 +26,23 @@
    {:navigate  new-page
     :dispatch [:drawer-change false]}))
 
-(reg-event-ds
- :edit-note
- (fn [ds [_ dib title body author]] 
-   [{:db/id [:current/entity "current"]
-     :current/note-ref dib
-     :current/note-title title
-     :current/note-body body}]))
+(reg-event-fx ;; register an event handler
+ :new-note    ;; for events with this name
+ (fn [cofx [_]] ;; get the co-effects and destructure the event
+   {:navigate  :note-editor
+    :transact [{:db/id [:current/entity "current"]
+                ;;:current/note-ref nil
+                :current/note-title ""
+                :current/note-body ""}]}))
+
+(reg-event-fx ;; register an event handler
+ :edit-note    ;; for events with this name
+ (fn [cofx [_ dib title body author]] ;; get the co-effects and destructure the event
+   {:navigate  :note-editor
+    :transact [{:db/id [:current/entity "current"]
+                :current/note-ref dib
+                :current/note-title title
+                :current/note-body body}]}))
 
 (reg-fx
  :navigate 
@@ -43,3 +53,16 @@
  (fn [ds [_ new-value]] 
    [{:db/id [:current/entity "current"] 
      :current/drawer-open? new-value}]))
+
+
+(reg-event-ds
+ :edit-title         
+ (fn [ds [_ new-value]] 
+   [{:db/id [:current/entity "current"] 
+     :current/note-title new-value}]))
+
+(reg-event-ds
+ :edit-body
+ (fn [ds [_ new-value]] 
+   [{:db/id [:current/entity "current"] 
+     :current/note-body new-value}]))
