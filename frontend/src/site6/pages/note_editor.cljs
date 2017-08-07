@@ -8,10 +8,11 @@
 
 
 (defn main [] 
-  (let [current-note (rf/subscribe [:note/current])]
+  (let [current-note (rf/subscribe [:current-note [:current/entity "current"]])]
     (fn []
-      (let [title (:note/title current-note)
-            body (:note/body current-note)]
+      (let [cn @current-note
+            title (:current/note-title cn)
+            body (:current/note-body cn)]
         [:div 
          [:div {:className "row around-xs mar-top-20"}
           [ui/paper {:class-name "col-xs-11 col-md-6 col-lg-4"}
@@ -41,7 +42,7 @@
                                             #_:note/current]))}]
            ]
           ]
-         [:div  {:className "row around-xs mar-top-20"}
+         #_[:div  {:className "row around-xs mar-top-20"}
           (ui/floating-action-button 
            {:on-touch-tap #(do #_(om/update-state! 
                                   this 

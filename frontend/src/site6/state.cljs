@@ -52,6 +52,10 @@
                           :db/cardinality :db.cardinality/one
                           :db/doc "The current state of the drawer"
                           } 
+   :current/note-ref   {:db/valueType :db.type/ref
+                        :db/cardinality :db.cardinality/one
+                        :db/doc "The ref to the note being edited"
+                        } 
    :current/note-title {;;:db/valueType :db.type/string
                         :db/cardinality :db.cardinality/one
                         :db/doc "The current note's title"
@@ -66,7 +70,8 @@
                          }} )
 
 ;; Define datoms to transact
-(def datoms [{:current/entity  "current" 
+(def datoms [{:db/id -1
+              :current/entity  "current" 
               :current/drawer-open? false
               }
              {:db/id -2
@@ -100,59 +105,10 @@
               :person/date      #inst "2016-04-08T22:00:00.000-00:00"}
              ])
 
-;;; Add the datoms via transaction
-#_(d/transact! conn datoms)
-#_(def conn  (d/init-db datoms schema))
-
 
 (def conn  (d/create-conn schema))
-#_(d/transact! conn datoms)
+
 (connect! conn)
 
-#_(defonce init-state
-  {:current-page nil
-   :route-params nil
-   :drawer-open? false
-   :note/list [[:note/by-id 1]
-               [:note/by-id 2]
-               [:note/by-id 3]]
-   :note/current {:db/id -1
-                  :note/title "" 
-                  :note/body ""
-                  :note/author nil}
-   :person/list     [[:person/by-id 1]
-                     [:person/by-id 2]
-                     [:person/by-id 3]]
-   :person/by-id    {1 {:db/id            1
-                        :person/name      "Tim"
-                        :person/login     "tim"
-                        :person/date      #inst "2016-04-08T22:00:00.000-00:00"}
-                     2 {:db/id            2
-                        :person/name      "Petra"
-                        :person/login     "petra"
-                        :person/date      #inst "2016-04-08T22:00:00.000-00:00"}
-                     3 {:db/id            3
-                        :person/name      "Michael"
-                        :person/login     "michael"
-                        :person/date      #inst "2016-04-08T22:00:00.000-00:00"}}
-   :person/new      {:person/name      ""
-                     :person/date      nil}
-   :note/by-id {1 {:db/id 1
-                   :note/title "Auto-TÜV" 
-                   :note/body "Spätestens am 01.08.2018"
-                   :note/author [:person/by-id 3]
-                   :note/tags ["GTD" "Termin" "Auto"]
-                   }
-                2 {:db/id 2
-                   :note/title "Schulbücher kaufen" 
-                   :note/body "Englisch Klasse 9 ISBN 234234-23423-4-3424-23"
-                   :note/author [:person/by-id 1]
-                   :note/tags ["GTD" "Schule"]}
-                3 {:db/id 3
-                   :note/title "Stammtisch" 
-                   :note/body "Termin find: http:/doodle.de/"
-                   :note/author [:person/by-id 2]
-                   :note/tags ["GTD" "Termin"]
-                   }}
-   })
+
 

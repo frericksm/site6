@@ -8,21 +8,30 @@
              [re-frame.core :refer [reg-sub-raw reg-event-fx] :as rf]
             ))
 
+(defn edit-note [dib title body author]
+  (rf/dispatch [:edit-note dib title body author])
+  (rf/dispatch [:navigate :note-editor]))
+
 (defn note-list-entry [note]
-  (let [title (nth note 0)
-        b (nth note 1)
-        a (nth note 2)
+  (let [dib (nth note 0)
+        title (nth note 1)
+        body (nth note 2)
+        author (nth note 3)
         ]
+    ^{:key dib}
     [ui/list-item
      {:primary-text title 
-      :secondary-text b 
-      :on-touch-tap (fn [e] nil)}]))
+      :secondary-text body 
+      :on-touch-tap (fn [e] 
+                  (.preventDefault e)
+                  (edit-note dib title body author))}]))
 
 (defn notes-list [notes]
   "notes"
   [ui/list (as-> notes x
              (map note-list-entry x) 
-             (interpose [divider] x))])
+             #_(interpose [divider] x)
+             (map-indexed (fn [i p] ^{:key i} p) x))])
 
 (defn main []
   (let [note-list (rf/subscribe [:note-list])]

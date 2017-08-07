@@ -7,7 +7,6 @@
               [cljs-react-material-ui.reagent :as ui]
               [cljs-react-material-ui.icons :as ic]
 
-              [site6.routes :as routes]              
               [site6.pages.home :as home]
               [site6.pages.notes :as notes]
               [site6.pages.note-editor :as note-editor]))
@@ -23,8 +22,6 @@
 
 (defn main []
   (let [current-page-subs (rf/subscribe [:current-page])
-        ;;r2rf-atom (get route-manager :route-to-render-fn)
-        ;;r2rf (deref r2rf-atom)
         drawer-open-subs (rf/subscribe [:drawer-open?]) 
         close-help (fn [e] #_(om/update-state! this assoc :open-help? false))]
     (fn []
@@ -46,12 +43,12 @@
            {:docked            false
             :open              open
             :on-request-change (fn [] (change-drawer-state (not open)))}
-           [ui/menu-item {:on-touch-tap #(do (routes/set-token! (routes/url-for :home))
-                                             (change-drawer-state false)
-                                             )} "Home"]
-           [ui/menu-item {:on-touch-tap #(do (routes/set-token! (routes/url-for :notes))
-                                             (change-drawer-state false)
-                                             )} "Notes"]]
+           [ui/menu-item {:on-touch-tap (fn [e] 
+                                          (.preventDefault e)
+                                          (rf/dispatch [:navigate :home]))} "Home"]
+           [ui/menu-item {:on-touch-tap (fn [e] 
+                                          (.preventDefault e)
+                                          (rf/dispatch [:navigate :notes]))} "Notes"]]
           (pages cp)
           [ui/dialog
            {:title            "Help"

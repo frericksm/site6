@@ -1,13 +1,22 @@
 (ns site6.subs
   (:require-macros [reagent.ratom :refer [reaction]])
   (:require [re-frame.core :refer [reg-sub-raw reg-event-fx]]
-            [re-posh.core :refer [reg-query-sub]]
+            [re-posh.core :refer [reg-query-sub reg-pull-sub]]
             [day8.re-frame.async-flow-fx]))
 
 
+(reg-pull-sub
+   :current-note
+   '[*])
+
+#_(reg-query-sub
+  :current-note
+  '[ :find  (pull ?e [:current/note-title :current/note-body])
+     :where [?e :current/entity "current"]])
+
 (reg-query-sub
   :note-list
-  '[ :find  ?title ?body ?author
+  '[ :find ?e ?title ?body ?author
      :where [?e :note/title ?title]
             [?e :note/body  ?body]
             [?e :note/author ?author]])
@@ -17,28 +26,15 @@
   '[ :find  [?v]
      :where [?e :current/page ?v]])
 
-#_(reg-sub-raw
-  :current-page
-  (fn [db] (reaction (:current-page @db))))
-
 (reg-query-sub
   :route-params
   '[ :find  [?v]
      :where [?e :current/route-params ?v]])
 
-#_(reg-sub-raw
-  :route-params
-  (fn [db] (reaction (:route-params @db))))
-
 (reg-query-sub
   :drawer-open?
   '[ :find  [?v]
      :where [?e :current/drawer-open? ?v]])
-
-#_(reg-sub-raw
-  :drawer-open?
-  (fn [db] (reaction (:drawer-open? @db))))
-
 
 (defn boot-flow
   []

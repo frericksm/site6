@@ -5,7 +5,8 @@
 
 ; https://github.com/juxt/bidi#route-patterns
 (def routes ["/" {""      :home
-                  "notes" :notes}])
+                  "notes" :notes
+                  "note-editor" :note-editor}])
 
 
 
