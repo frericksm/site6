@@ -2,6 +2,7 @@
   (:require [re-frame.core :refer [reg-event-fx reg-fx inject-cofx]]
             [re-posh.core :refer [connect! reg-query-sub reg-pull-sub reg-event-ds]]
             [site6.state]
+            [datascript.core :as d]
             [site6.routes :as routes]))
 
 (enable-console-print!)
@@ -66,3 +67,17 @@
  (fn [ds [_ new-value]] 
    [{:db/id [:current/entity "current"] 
      :current/note-body new-value}]))
+
+(reg-event-ds
+ :save-node
+ (fn [ds [_]] 
+   (let [e (d/pull ds '[*] [:current/entity "current"])
+         n-ref (or (:db/id (:current/note-ref e)) -1)]
+     [{:db/id [:current/entity "current"] 
+       :current/note-ref n-ref}
+      {:db/id n-ref
+       :note/title (:current/note-title e)
+       :note/body (:current/note-body e)
+       ;;:note/author -5
+       ;;:note/tags ["GTD" "Schule"]
+       }])))
