@@ -42,7 +42,7 @@
 
 
                   [datascript "0.16.1"]
-                  [re-posh "0.1.4" :exclusions [cljsjs/react cljsjs/react-dom]]
+                  [re-posh "0.1.5" :exclusions [cljsjs/react cljsjs/react-dom]]
                   ])
 
 (require
