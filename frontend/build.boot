@@ -38,8 +38,6 @@
                   [deraen/boot-sass "0.3.0" :scope "test"]
 
                   [bidi                          "2.0.8"]
-                  [kibu/pushy                    "0.3.6"]
-
 
                   [datascript "0.16.1"]
                   [re-posh "0.1.5" :exclusions [cljsjs/react cljsjs/react-dom]]
@@ -59,7 +57,7 @@
     (watch)
     #_(cljs)
     (cljs :optimizations :advanced
-          :source-map true
+          :source-map false
           :compiler-options {:pseudo-names true
                              ;; :optimizations :advanced
                              :output-wrapper :true

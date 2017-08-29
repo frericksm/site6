@@ -1,12 +1,12 @@
 (ns site6.routes
   (:require [bidi.bidi :as bidi]
-            [pushy.core :as pushy]
+            [site6.router :as r]
             [re-frame.core :as re-frame]))
 
 ; https://github.com/juxt/bidi#route-patterns
-(def routes ["/" {""      :home
-                  "notes" :notes
-                  "note-editor" :note-editor}])
+(def routes ["/ic" [["" :home]
+                    ["/notes" :notes]
+                    ["/note-editor" :note-editor]]])
 
 
 
@@ -19,15 +19,16 @@
     (re-frame/dispatch [:route {:current-page page :route-params route-params}])))
 
 
-(def history (pushy/pushy dispatch-route (partial bidi/match-route routes)))
+(defonce router-atom (atom nil))
 
 (defn start! []
-  (pushy/start! history))
+  (reset! router-atom (r/start-router! routes
+                                       {:on-navigate (fn [location]
+                                                       (dispatch-route location))
+                                        :default-location {:handler :home}})))
 
 ; Utilities
 (defn set-token! [token]
-  (pushy/set-token! history token))
-
-(defn get-token [] (pushy/get-token history))
+  (r/set-location! @router-atom (bidi/match-route routes token)))
 
 (def url-for (partial bidi/path-for routes))
