@@ -73,6 +73,7 @@
 (def datoms [{:db/id -1
               :current/entity  "current" 
               :current/drawer-open? false
+              :current/page :home
               }
              {:db/id -2
               :note/title "Auto-TÜV" 

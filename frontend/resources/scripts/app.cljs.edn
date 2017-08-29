@@ -1,3 +1,3 @@
 {:require  [site6.core]
- :init-fns [site.core/init]
+ :init-fns [site6.core/init]
  :compiler-options {:asset-path "/scripts/app.out"}}
