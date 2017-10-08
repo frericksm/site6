@@ -35,7 +35,7 @@
             ;;:icon-element-left (ui/icon-button (ic/navigation-close))
             :icon-element-right  (reagent/as-element [ui/flat-button
                                                       {:label     "Home"
-                                                       :href      "https://tipevi.de/home"
+                                                       :href      "ic"
                                                        :secondary true}])
             :on-left-icon-button-touch-tap
             (fn [e] (change-drawer-state true))}]

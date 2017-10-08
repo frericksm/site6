@@ -1,6 +1,6 @@
 (ns site6.state
   (:require [datascript.core :as d]
-            [re-posh.core :refer [connect! reg-query-sub reg-pull-sub reg-event-ds]]))
+            [re-posh.core :refer [connect!]]))
 
 (def schema 
   {:person/name {;;:db/valueType :db.type/string

@@ -68,16 +68,19 @@
    [{:db/id [:current/entity "current"] 
      :current/note-body new-value}]))
 
-(reg-event-ds
+(reg-event-fx
  :save-node
- (fn [ds [_]] 
+ [(inject-cofx :ds)]
+ (fn [{:keys [ds] :as cofx} [_]] 
    (let [e (d/pull ds '[*] [:current/entity "current"])
          n-ref (or (:db/id (:current/note-ref e)) -1)]
-     [{:db/id [:current/entity "current"] 
-       :current/note-ref n-ref}
-      {:db/id n-ref
-       :note/title (:current/note-title e)
-       :note/body (:current/note-body e)
-       ;;:note/author -5
-       ;;:note/tags ["GTD" "Schule"]
-       }])))
+     {:navigate :notes
+      :transact
+      [{:db/id [:current/entity "current"] 
+        :current/note-ref n-ref}
+       {:db/id n-ref
+        :note/title (:current/note-title e)
+        :note/body (:current/note-body e)
+        ;;:note/author -5
+        ;;:note/tags ["GTD" "Schule"]
+        }]})))
