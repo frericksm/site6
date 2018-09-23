@@ -37,16 +37,16 @@
                                                       {:label     "Home"
                                                        :href      "ic"
                                                        :secondary true}])
-            :on-left-icon-button-touch-tap
+            :on-click
             (fn [e] (change-drawer-state true))}]
           [ui/drawer
            {:docked            false
             :open              open
             :on-request-change (fn [] (change-drawer-state (not open)))}
-           [ui/menu-item {:on-touch-tap (fn [e] 
+           [ui/menu-item {:on-click (fn [e] 
                                           (.preventDefault e)
                                           (rf/dispatch [:navigate :home]))} "Home"]
-           [ui/menu-item {:on-touch-tap (fn [e] 
+           [ui/menu-item {:on-click (fn [e] 
                                           (.preventDefault e)
                                           (rf/dispatch [:navigate :notes]))} "Notes"]]
           (pages cp)
@@ -58,10 +58,10 @@
             :actions          [(reagent/as-element [ui/raised-button
                                                     {:label        "Back"
                                                      :key          "back"
-                                                     :on-touch-tap close-help}])
+                                                     :on-click close-help}])
                                (reagent/as-element [ui/raised-button
                                                     {:label        "Thanks"
                                                      :key          "thanks"
-                                                     :on-touch-tap close-help}])]
+                                                     :on-click close-help}])]
             :on-request-close close-help}]
           ]]))))

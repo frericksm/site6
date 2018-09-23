@@ -41,7 +41,7 @@
           ]
          [:div  {:className "row around-xs mar-top-20"}
           (reagent/as-element [ui/floating-action-button 
-                               {:on-touch-tap (fn [e] (.preventDefault e)
+                               {:on-click (fn [e] (.preventDefault e)
                                                 (rf/dispatch [:save-node]))} 
                                (ic/action-done)])]])))
 )
