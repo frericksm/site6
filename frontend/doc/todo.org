@@ -1,0 +1,19 @@
+
+
+* Bugs in site 6 [1]  [1/2]
+
+  - [X] missing key in Divider (created by site6.pages.notes.main) see [0]
+#+BEGIN_SRC 
+Warning: Each child in an array or iterator should have a unique "key" prop. Check the render method of `site6.pages.notes.main`. See https://fb.me/react-warning-keys for more information.
+    in Divider (created by site6.pages.notes.main)
+    in site6.pages.notes.main (created by site6.views.main)
+    in div (created by site6.views.main)
+    in MuiThemeProvider (created by site6.views.main)
+    in site6.views.main
+ #+END_SRC
+  - [ ] Add button ändert die zuletzt editierte Note bzw. fügt keine neue Note hinzu
+
+
+
+[0] https://github.com/reagent-project/reagent/issues/34
+[1] file:/home/michael/projects/site6/frontend
